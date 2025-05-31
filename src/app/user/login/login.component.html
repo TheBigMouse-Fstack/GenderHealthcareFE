@@ -1,23 +1,21 @@
-<!-- Wrapper ngoài cùng: đặt background cảnh và căn giữa form -->
 <div
   class="min-h-screen flex items-center justify-center bg-cover bg-center"
-  style="background-image: url('./loginBg.webp')"
+  style="background-image: url('./loginBg.png')"
 >
-  <!-- Form login nổi bật ở giữa -->
   <div
     class="relative w-full max-w-md mx-auto px-7 py-8 bg-white border border-gray-200 rounded-xl shadow-2xl backdrop-blur-lg"
   >
     <div class="flex flex-col items-center mb-5">
       <img src="./logoNgang.png" alt="GenderCare Logo" class="h-20 mb-2" />
     </div>
-    <form (ngSubmit)="onSubmit()" autocomplete="off">
+    <form #form="ngForm" (ngSubmit)="onSubmit(form)" autocomplete="off">
       <div class="relative mb-6">
         <input
           type="text"
-          class="peer w-full h-12 px-4 border border-gray-300 rounded-md outline-none text-[#4E6688] text-base bg-transparent focus:border-[#4E6688]"
+          class="peer w-full h-12 px-4 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
           id="email"
           name="email"
-          [(ngModel)]="email"
+          [(ngModel)]="enteredEmail"
           required
           autocomplete="off"
         />
@@ -29,11 +27,11 @@
       </div>
       <div class="relative mb-3">
         <input
-          [type]="showPass ? 'text' : 'password'"
-          class="peer w-full h-12 px-4 pr-12 border border-gray-300 rounded-md outline-none text-[#4E6688] text-base bg-transparent focus:border-[#4E6688]"
+          [type]="ShowPass ? 'text' : 'password'"
+          class="peer w-full h-12 px-4 pr-12 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
           id="password"
           name="password"
-          [(ngModel)]="password"
+          [(ngModel)]="enterdPassword"
           required
           autocomplete="off"
         />
@@ -44,14 +42,14 @@
         >
         <button
           type="button"
-          (click)="showPass = !showPass"
+          (click)="ShowPass = !ShowPass"
           class="absolute top-1/2 right-4 -translate-y-1/2 p-0 m-0 bg-transparent border-none cursor-pointer flex items-center justify-center focus:outline-none"
           tabindex="-1"
           aria-label="Toggle password visibility"
         >
-          @if (!showPass) {
+          @if (!ShowPass) {
           <img src="./visibility_off.png" alt="Show password" class="w-5 h-5" />
-          } @if (showPass) {
+          } @if (ShowPass) {
           <img src="./visibility.png" alt="Hide password" class="w-5 h-5" />
           }
         </button>
@@ -63,7 +61,7 @@
           <input
             type="checkbox"
             class="mr-2 accent-[#4E6688] cursor-pointer"
-            [(ngModel)]="rememberMe"
+            [(ngModel)]="RememberMe"
             name="rememberMe"
           />
           Remember me
@@ -72,34 +70,25 @@
           >Forgot password?</a
         >
       </div>
+      <!-- submit  -->
       <button
         type="submit"
-        class="w-full py-3 text-base font-semibold rounded-lg bg-[#4E6688] text-white shadow hover:bg-[#425779] transition cursor-pointer"
+        class="relative cursor-pointer w-full py-3 bg-[#4E6688] rounded-lg transition-all duration-100 active:scale-95 group overflow-hidden"
       >
-        Sign In
+        <span class="text-white text-base font-semibold relative z-10"
+          >Sign In</span
+        >
+        <div
+          class="pointer-events-none absolute left-1/2 top-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 border-2 border-white rounded-lg transition-all duration-300 group-hover:scale-110 group-hover:border-[#FFD700] z-0"
+        ></div>
       </button>
-      <div class="relative my-7 flex items-center">
-        <hr class="w-full border-gray-300" />
-        <p
-          class="absolute left-1/2 -translate-x-1/2 bg-white text-gray-400 px-3"
-        >
-          Or
-        </p>
-      </div>
-      <div class="mb-6">
-        <button
-          type="button"
-          class="flex items-center justify-center gap-3 w-full h-12 border border-gray-300 rounded-lg bg-white hover:bg-[#4E6688]/10 transition cursor-pointer"
-        >
-          <img src="./google.webp" alt="" class="w-10 h-10" />
-          <span class="text-base font-medium text-[#4E6688]"
-            >Sign In with Google</span
-          >
-        </button>
-      </div>
+      <!--  -->
+      <!-- login with google -->
+      <app-google />
+      <!--  -->
       <div class="flex justify-end -bottom-7 right-0 text-sm text-gray-700">
         <div class="mx-3">Don't have account</div>
-        <a href="#" class="text-[#4E6688] font-semibold hover:underline"
+        <a href="/register" class="text-[#4E6688] font-semibold hover:underline"
           >Sign up</a
         >
       </div>
