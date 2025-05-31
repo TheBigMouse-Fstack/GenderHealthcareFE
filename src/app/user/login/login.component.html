@@ -9,37 +9,69 @@
       <img src="./logoNgang.png" alt="GenderCare Logo" class="h-20 mb-2" />
     </div>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" autocomplete="off">
-      <div class="relative mb-6">
+      <!-- email or phone  -->
+      <div
+        class="control relative mb-6"
+        [class.show-error]="formSubmitted && emailOrPhone.invalid"
+      >
+        <!-- input -->
         <input
           type="text"
           class="peer w-full h-12 px-4 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
-          id="email"
-          name="email"
-          [(ngModel)]="enteredEmail"
+          id="emailOrPhone"
+          name="emailOrPhone"
+          [(ngModel)]="enteredEmailOrPhone"
           required
           autocomplete="off"
+          #emailOrPhone="ngModel"
         />
+        <!-- label -->
         <label
           for="email"
-          class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] bg-transparent px-1"
+          class="absolute bg-white left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] px-1"
           >Email or phone</label
         >
+        <!-- inValid -->
+        @if((emailOrPhone.touched && emailOrPhone.dirty &&
+        emailOrPhone.invalid)|| (formSubmitted && emailOrPhone.invalid)){
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          This field is required !
+        </span>
+        }
       </div>
-      <div class="relative mb-3">
+      <!-- passwork -->
+      <div
+        class="control relative mb-3"
+        [class.show-error]="formSubmitted && password.invalid"
+      >
+        <!-- input -->
         <input
           [type]="ShowPass ? 'text' : 'password'"
           class="peer w-full h-12 px-4 pr-12 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
           id="password"
           name="password"
-          [(ngModel)]="enterdPassword"
+          [(ngModel)]="enteredPassword"
           required
+          minlength="6"
           autocomplete="off"
+          #password="ngModel"
         />
+        <!-- label -->
         <label
           for="password"
-          class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] bg-transparent px-1"
+          class="absolute left-4 top-3 bg-white text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] px-1"
           >Password</label
         >
+        @if((password.touched && password.dirty && password.invalid)||
+        (formSubmitted && password.invalid)){
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Password must be at least 6 characters long
+        </span>
+        }
         <button
           type="button"
           (click)="ShowPass = !ShowPass"
@@ -54,6 +86,7 @@
           }
         </button>
       </div>
+
       <div class="flex justify-between items-center mb-6">
         <label
           class="flex items-center text-sm text-gray-600 select-none cursor-pointer"
