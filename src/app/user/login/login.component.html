@@ -9,42 +9,46 @@
       <img src="./logoNgang.png" alt="GenderCare Logo" class="h-20 mb-2" />
     </div>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" autocomplete="off">
-      <!-- email or phone  -->
       <div
         class="control relative mb-6"
-        [class.show-error]="formSubmitted && emailOrPhone.invalid"
+        [class.show-error]="formSubmitted && phoneModel.invalid"
       >
-        <!-- input -->
         <input
           type="text"
           class="peer w-full h-12 px-4 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
-          id="emailOrPhone"
-          name="emailOrPhone"
-          [(ngModel)]="enteredEmailOrPhone"
+          id="phone"
+          name="phone"
+          [(ngModel)]="enteredPhone"
           required
+          pattern="^0\d{9}$"
           autocomplete="off"
-          #emailOrPhone="ngModel"
+          #phoneModel="ngModel"
+          placeholder=""
         />
-        <!-- label -->
         <label
-          for="email"
-          class="absolute bg-white left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] px-1"
-          >Email or phone</label
+          for="phone"
+          class="absolute left-3 top-2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#4E6688] bg-white px-1"
+          >Phone</label
         >
-        <!-- inValid -->
-        @if((emailOrPhone.touched && emailOrPhone.dirty &&
-        emailOrPhone.invalid)|| (formSubmitted && emailOrPhone.invalid)){
+        <!-- validate -->
+        @if ((phoneModel.touched && phoneModel.invalid) || (formSubmitted &&
+        phoneModel.invalid)) { @if (phoneModel.errors?.['required']){<span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Phone Number is required! </span
+        >} @else if ( phoneModel.errors?.['pattern']) {
         <span
           class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
         >
-          This field is required !
+          Phone Number invalid
         </span>
-        }
+        } }
       </div>
-      <!-- passwork -->
+
+      <!-- password -->
       <div
         class="control relative mb-3"
-        [class.show-error]="formSubmitted && password.invalid"
+        [class.show-error]="formSubmitted && passwordModel.invalid"
       >
         <!-- input -->
         <input
@@ -56,16 +60,17 @@
           required
           minlength="6"
           autocomplete="off"
-          #password="ngModel"
+          #passwordModel="ngModel"
+          placeholder=" "
         />
         <!-- label -->
         <label
           for="password"
-          class="absolute left-4 top-3 bg-white text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] px-1"
+          class="absolute left-3 top-2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-placeholder-shown:top-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#4E6688] bg-white px-1"
           >Password</label
         >
-        @if((password.touched && password.dirty && password.invalid)||
-        (formSubmitted && password.invalid)){
+        @if((passwordModel.touched && passwordModel.dirty &&
+        passwordModel.invalid)|| (formSubmitted && passwordModel.invalid)){
         <span
           class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
         >

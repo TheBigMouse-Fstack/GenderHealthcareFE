@@ -1,3 +1,4 @@
+<!-- Wrapper -->
 <div
   class="min-h-screen flex items-center justify-center bg-cover bg-center"
   style="background-image: url('./loginBg.png')"
@@ -8,81 +9,139 @@
     <div class="flex flex-col items-center mb-4">
       <img src="./logoNgang.png" alt="GenderCare Logo" class="h-16 mb-2" />
     </div>
-    <form #form="ngForm" (ngSubmit)="onRegister()" autocomplete="off">
+    <form #form="ngForm" (ngSubmit)="onRegister(form)" autocomplete="off">
       <!-- Full Name -->
-      <div class="relative mb-4">
+      <div
+        class="control relative mb-6"
+        [class.show-error]="formSubmitted && passwordModel.invalid"
+      >
         <input
           type="text"
-          class="peer w-full h-10 px-3 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
+          class="peer w-full h-12 px-4 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
           id="fullName"
           name="fullName"
           [(ngModel)]="fullName"
           required
           autocomplete="off"
+          #fullNameModel="ngModel"
+          placeholder=""
         />
         <label
           for="fullName"
-          class="absolute left-3 top-2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] bg-transparent px-1"
+          class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#4E6688] bg-white px-1"
           >Full Name</label
         >
+        @if ((fullNameModel.touched && fullNameModel.invalid) || (formSubmitted
+        && fullNameModel.invalid)) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Full Name is required!
+        </span>
+        }
       </div>
+
       <!-- Sex Identity -->
-      <div class="relative mb-4">
+      <div class="control relative mb-6">
         <select
           class="peer w-full h-10 px-3 border border-gray-300 rounded-md outline-none text-[#4E6688] text-base bg-transparent focus:border-[#4E6688]"
           id="sexIdentity"
           name="sexIdentity"
           [(ngModel)]="sexIdentity"
           required
+          #sexIdentityModel="ngModel"
         >
-          <option value="" disabled selected>Select sex identity</option>
+          <option value="" disabled>Select sex identity</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="other">Other</option>
         </select>
+
         <label
           for="sexIdentity"
-          class="absolute left-3 top-[-10px] text-xs text-[#4E6688] bg-white px-1"
+          class="absolute left-4 top-[-10px] text-xs text-[#4E6688] bg-white px-1"
           >Sex Identity</label
         >
+        @if ((sexIdentityModel.touched && sexIdentityModel.invalid) ||
+        (formSubmitted && sexIdentityModel.invalid)) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Sex Identity is required!
+        </span>
+        }
       </div>
-      <!-- Email -->
-      <div class="relative mb-4">
+
+      <!-- Phone -->
+      <div
+        class="control relative mb-6"
+        [class.show-error]="formSubmitted && passwordModel.invalid"
+      >
         <input
-          type="email"
-          class="peer w-full h-10 px-3 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
-          id="email"
-          name="email"
-          [(ngModel)]="email"
+          type="tel"
+          class="peer w-full h-12 px-4 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
+          id="phone"
+          name="phone"
+          [(ngModel)]="enteredPhone"
           required
+          (ngModelChange)="onPhoneInput()"
+          pattern="^0\d{9}$"
           autocomplete="off"
+          #phoneModel="ngModel"
+          placeholder=""
         />
         <label
-          for="email"
-          class="absolute left-3 top-2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] bg-transparent px-1"
-          >Email</label
+          for="phone"
+          class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#4E6688] bg-white px-1"
+          >Phone</label
         >
+        @if ((phoneModel.touched && phoneModel.invalid) || (formSubmitted &&
+        phoneModel.invalid) || isUsed ) { @if
+        (phoneModel.errors?.['required']){<span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Phone Number is required! </span
+        >} @else if ( phoneModel.errors?.['pattern']) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Phone Number invalid
+        </span>
+        }@else if (isUsed) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Phone Number has been used !
+        </span>
+        }}
       </div>
+
       <!-- Password -->
-      <div class="relative mb-4">
+      <div
+        class="control relative mb-6"
+        [class.show-error]="formSubmitted && passwordModel.invalid"
+      >
         <input
           [type]="showPass ? 'text' : 'password'"
-          class="peer w-full h-10 px-3 pr-10 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
+          class="peer w-full h-12 px-4 pr-12 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
           id="password"
           name="password"
           [(ngModel)]="password"
           required
+          minlength="6"
           autocomplete="off"
+          #passwordModel="ngModel"
+          placeholder=""
         />
         <label
           for="password"
-          class="absolute left-3 top-2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] bg-transparent px-1"
+          class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#4E6688] bg-white px-1"
           >Password</label
         >
         <button
           type="button"
           (click)="showPass = !showPass"
-          class="absolute top-1/2 right-3 -translate-y-1/2 p-0 m-0 bg-transparent border-none cursor-pointer flex items-center justify-center focus:outline-none"
+          class="absolute top-1/2 right-4 -translate-y-1/2 p-0 m-0 bg-transparent border-none cursor-pointer flex items-center justify-center focus:outline-none"
           tabindex="-1"
           aria-label="Toggle password visibility"
         >
@@ -92,27 +151,47 @@
           <img src="./visibility.png" alt="Hide password" class="w-5 h-5" />
           }
         </button>
+        @if ((passwordModel.touched && passwordModel.invalid) || (formSubmitted
+        && passwordModel.invalid)) { @if (passwordModel.errors?.['required']) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Password is required!
+        </span>
+        } @else if (passwordModel.errors?.['minlength']) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Password must be at least 6 characters!
+        </span>
+        } }
       </div>
+
       <!-- Confirm Password -->
-      <div class="relative mb-4">
+      <div
+        class="control relative mb-6"
+        [class.show-error]="formSubmitted && passwordModel.invalid"
+      >
         <input
           [type]="showConfirmPass ? 'text' : 'password'"
-          class="peer w-full h-10 px-3 pr-10 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
+          class="peer w-full h-12 px-4 pr-12 border border-gray-300 rounded-md outline-none text-base bg-transparent focus:border-[#4E6688]"
           id="confirmPassword"
           name="confirmPassword"
           [(ngModel)]="confirmPassword"
           required
           autocomplete="off"
+          #confirmPasswordModel="ngModel"
+          placeholder=""
         />
         <label
           for="confirmPassword"
-          class="absolute left-3 top-2 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-5 peer-focus:text-xs peer-focus:text-[#4E6688] peer-valid:-top-5 peer-valid:text-xs peer-valid:text-[#4E6688] bg-transparent px-1"
+          class="absolute left-4 top-3 text-gray-500 pointer-events-none transition-all duration-200 peer-focus:-top-2 peer-focus:text-xs peer-focus:text-[#4E6688] peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-not-placeholder-shown:-top-2 peer-not-placeholder-shown:text-xs peer-not-placeholder-shown:text-[#4E6688] bg-white px-1"
           >Confirm Password</label
         >
         <button
           type="button"
           (click)="showConfirmPass = !showConfirmPass"
-          class="absolute top-1/2 right-3 -translate-y-1/2 p-0 m-0 bg-transparent border-none cursor-pointer flex items-center justify-center focus:outline-none"
+          class="absolute top-1/2 right-4 -translate-y-1/2 p-0 m-0 bg-transparent border-none cursor-pointer flex items-center justify-center focus:outline-none"
           tabindex="-1"
           aria-label="Toggle confirm password visibility"
         >
@@ -122,7 +201,28 @@
           <img src="./visibility.png" alt="Hide password" class="w-5 h-5" />
           }
         </button>
+
+        <!-- Thông báo lỗi -->
+        @if ( ((confirmPasswordModel.touched || confirmPasswordModel.dirty ||
+        formSubmitted) && confirmPasswordModel.invalid) ) {
+        @if(confirmPasswordModel.errors?.['required']){
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Confirm password is required!
+        </span>
+        } }
+        <!-- Kiểm tra password có giống confirm không (realtime) -->
+        @if ( (confirmPasswordModel.touched || confirmPasswordModel.dirty ||
+        formSubmitted) && confirmPassword && password !== confirmPassword ) {
+        <span
+          class="absolute right-0 top-[-1.5rem] font-medium tracking-wide text-red-500 text-xs mt-1 ml-1 shake"
+        >
+          Passwords do not match!
+        </span>
+        }
       </div>
+
       <!-- Submit -->
       <button
         type="submit"
@@ -136,7 +236,7 @@
         ></div>
       </button>
 
-      <!-- Login with google -->
+      <!-- Login with Google -->
       <app-google />
       <!--  -->
 

@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+
 import {
   afterNextRender,
   Component,
@@ -8,6 +10,7 @@ import {
 import { FormsModule, NgForm } from '@angular/forms';
 import { GoogleComponent } from '../google/google.component';
 import { debounceTime } from 'rxjs';
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -17,13 +20,16 @@ import { debounceTime } from 'rxjs';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  enteredEmailOrPhone = '';
+  enteredPhone = '';
   enteredPassword = '';
   RememberMe = false;
   ShowPass = false;
   formSubmitted = false;
   private form = viewChild.required<NgForm>('form');
   private destroyRef = inject(DestroyRef);
+  private loginService = inject(LoginService);
+  private router = inject(Router);
+  //
 
   constructor() {
     afterNextRender(() => {
@@ -31,33 +37,45 @@ export class LoginComponent {
 
       if (savedForm) {
         const loadedFormData = JSON.parse(savedForm);
-        const savedEmailOrPhone = loadedFormData.emailOrPhone;
+        const savedPhone = loadedFormData.Phone;
         Promise.resolve().then(() => {
-          const control = this.form().controls['emailOrPhone'];
+          const control = this.form().controls['phone'];
           if (control) {
-            control.setValue(savedEmailOrPhone);
+            control.setValue(savedPhone);
           }
         });
       }
-
       const subscription = this.form()
         .valueChanges?.pipe(debounceTime(500))
         .subscribe({
           next: (value) =>
             window.localStorage.setItem(
               'save-login-form',
-              JSON.stringify({ emailOrPhone: value.emailOrPhone })
+              JSON.stringify({ phone: value.phone })
             ),
         });
       this.destroyRef.onDestroy(() => subscription?.unsubscribe());
     });
   }
+  //
 
-  onSubmit(formData: NgForm) {
+  async onSubmit(formData: NgForm) {
     this.formSubmitted = true;
-    if (!formData.valid) return; // Không submit nếu chưa hợp lệ
-    // Thực hiện đăng nhập ở đây, ví dụ gọi API
-    // ...
-    formData.reset();
+    if (formData.valid) {
+      this.loginService
+        .loginWithPhone(this.enteredPhone, this.enteredPassword)
+        .subscribe({
+          next: (res: any) => {
+            // Lưu token nếu thành công
+            localStorage.setItem('token', res.data.access_token);
+            // Chuyển hướng
+            this.router.navigate(['/']);
+          },
+          error: (err: any) => {
+            console.log(err);
+          },
+        });
+      formData.reset();
+    }
   }
 }

@@ -5,5 +5,6 @@ import { RegisterComponent } from './user/register/register.component';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'user', component: RegisterComponent },
   // các route khác...
 ];
