@@ -36,8 +36,6 @@ export class UserService {
     const body: UserRegister = {
       phone: phoneForSupabase,
       password: userRegisterData.password,
-      fullName: userRegisterData.fullName,
-      sexIdentify: userRegisterData.sexIdentify,
     };
     // Gửi POST tới /register
     return this.http.post(`${environment.apiEndpoint}/register`, body, {

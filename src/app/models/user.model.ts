@@ -1,6 +1,4 @@
 export interface UserRegister {
-  fullName: string;
-  sexIdentify: string;
   phone: string;
   password: string;
 }

@@ -49,14 +49,6 @@ export class RegisterComponent {
           if (this.form().controls['fullName'] && loadedFormData.fullName) {
             this.form().controls['fullName'].setValue(loadedFormData.fullName);
           }
-          if (
-            this.form().controls['sexIdentity'] &&
-            loadedFormData.sexIdentity
-          ) {
-            this.form().controls['sexIdentity'].setValue(
-              loadedFormData.sexIdentity
-            );
-          }
         });
       }
       // --- Lưu form mỗi khi thay đổi, debounce tránh spam ---
