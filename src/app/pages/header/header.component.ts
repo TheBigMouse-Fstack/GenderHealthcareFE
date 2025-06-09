@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
-import { SearchComponent } from '../../search/search.component';
+import { SearchComponent } from '../search/search.component';
 
 @Component({
   selector: 'app-header',
