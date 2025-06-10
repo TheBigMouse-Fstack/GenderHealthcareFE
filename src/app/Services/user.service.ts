@@ -2,7 +2,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { type UserLogin, UserRegister } from '../models/user.model';
+import {
+  type ContactMessage,
+  type UserLogin,
+  UserRegister,
+} from '../models/user.model';
 
 // ================== SERVICE DECORATOR ==================
 @Injectable({
@@ -60,6 +64,15 @@ export class UserService {
     };
     // Gửi POST tới /login
     return this.http.post(`${environment.apiEndpoint}/login`, body, {
+      headers: this.getHeaders(),
+    });
+  }
+
+  // =========== Form ===========
+  sendContactMessage(data: ContactMessage) {
+    // Đổi endpoint theo BE của bạn
+    console.log(data);
+    return this.http.post(`${environment.apiEndpoint}/login`, data, {
       headers: this.getHeaders(),
     });
   }

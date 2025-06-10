@@ -1,11 +1,12 @@
 import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { SearchComponent } from '../search/search.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgClass, SearchComponent],
+  imports: [NgClass, SearchComponent, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

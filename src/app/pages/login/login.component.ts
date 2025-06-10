@@ -8,7 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { GoogleComponent } from '../google/google.component';
+import { GoogleComponent } from '../../components/google/google.component';
 import { debounceTime } from 'rxjs';
 import { UserService } from '../../Services/user.service';
 import { TokenService } from '../../Services/token.service';
