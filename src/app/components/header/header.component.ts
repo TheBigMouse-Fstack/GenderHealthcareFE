@@ -3,11 +3,12 @@ import { Component, inject, OnInit } from '@angular/core';
 import { SearchComponent } from '../search/search.component';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../Services/user.service';
+import { TokenService } from '../../Services/token.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [NgClass, SearchComponent, RouterLink],
+  imports: [NgClass, RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })

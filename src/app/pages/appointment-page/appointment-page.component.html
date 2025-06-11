@@ -1,17 +1,16 @@
 <app-header />
 <body>
   <div class="w-full h-[38rem] bg-white relative">
-    <!--  -->
+    <!-- Banner Background -->
     <div
       class="absolute top-0 left-0 w-full h-[38rem] z-0 rounded-4xl bg-cover bg-center"
       style="background-image: url('./Appointment.png')"
     >
       <div class="max-w-7xl h-full m-auto px-6 py-[3rem]">
         <div class="w-full h-full flex justify-between">
-          <!-- contact -->
+          <!-- ==== Contact Info (Left) ==== -->
           <div class="w-[40%] h-full">
             <h1 class="text-3xl font-bold mb-6">Contact us</h1>
-
             <div class="mb-6 border-b border-[#8BA6C6] pb-4">
               <h2 class="text-lg font-bold mb-2">More contact information</h2>
               <p class="mb-4 text-gray-200 text-base">
@@ -37,7 +36,6 @@
                 </div>
               </div>
             </div>
-
             <div>
               <h2 class="text-lg font-bold mb-2">Follow us</h2>
               <p class="mb-4 text-gray-200 text-base">
@@ -47,7 +45,7 @@
                 together!
               </p>
               <div class="flex gap-4 mt-2">
-                <!-- 5 trái tim, có thể thay thành icon khác nếu muốn -->
+                @for (_ of [1,2,3,4,5]; track $index) {
                 <svg
                   class="w-6 h-6 text-white hover:text-pink-400 cursor-pointer transition"
                   fill="none"
@@ -61,63 +59,11 @@
                     d="M12 21C12 21 4 13.8 4 8.5C4 5.4 6.4 3 9.5 3C11.1 3 12.5 4.1 13 5.6C13.5 4.1 14.9 3 16.5 3C19.6 3 22 5.4 22 8.5C22 13.8 12 21 12 21Z"
                   />
                 </svg>
-                <svg
-                  class="w-6 h-6 text-white hover:text-pink-400 cursor-pointer transition"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 21C12 21 4 13.8 4 8.5C4 5.4 6.4 3 9.5 3C11.1 3 12.5 4.1 13 5.6C13.5 4.1 14.9 3 16.5 3C19.6 3 22 5.4 22 8.5C22 13.8 12 21 12 21Z"
-                  />
-                </svg>
-                <svg
-                  class="w-6 h-6 text-white hover:text-pink-400 cursor-pointer transition"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 21C12 21 4 13.8 4 8.5C4 5.4 6.4 3 9.5 3C11.1 3 12.5 4.1 13 5.6C13.5 4.1 14.9 3 16.5 3C19.6 3 22 5.4 22 8.5C22 13.8 12 21 12 21Z"
-                  />
-                </svg>
-                <svg
-                  class="w-6 h-6 text-white hover:text-pink-400 cursor-pointer transition"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 21C12 21 4 13.8 4 8.5C4 5.4 6.4 3 9.5 3C11.1 3 12.5 4.1 13 5.6C13.5 4.1 14.9 3 16.5 3C19.6 3 22 5.4 22 8.5C22 13.8 12 21 12 21Z"
-                  />
-                </svg>
-                <svg
-                  class="w-6 h-6 text-white hover:text-pink-400 cursor-pointer transition"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 21C12 21 4 13.8 4 8.5C4 5.4 6.4 3 9.5 3C11.1 3 12.5 4.1 13 5.6C13.5 4.1 14.9 3 16.5 3C19.6 3 22 5.4 22 8.5C22 13.8 12 21 12 21Z"
-                  />
-                </svg>
+                }
               </div>
             </div>
           </div>
-          <!-- form -->
-          <!-- ... giữ nguyên header/contact info ... -->
+          <!-- ==== Appointment Form (Right) ==== -->
           <div class="w-[55%] h-full flex justify-center items-center">
             <form
               #contactForm="ngForm"
@@ -125,7 +71,7 @@
               autocomplete="off"
               class="bg-[#FFF5E7] w-full h-full flex flex-col justify-center items-center p-10 rounded-2xl shadow-lg text-black"
             >
-              <!-- ===== Row 1: Full name & Email ===== -->
+              <!-- Row 1: Full Name & Email -->
               <div class="flex gap-4 mb-4 w-full">
                 <div class="flex-1 relative">
                   <label class="block font-bold mb-1 text-black"
@@ -182,7 +128,7 @@
                 </div>
               </div>
 
-              <!-- ===== Row 2: Phone & Schedule ===== -->
+              <!-- Row 2: Phone & Schedule -->
               <div class="flex gap-4 mb-4 w-full">
                 <div class="flex-1 relative">
                   <label class="block font-bold mb-1 text-black"
@@ -215,9 +161,9 @@
                   } }
                 </div>
                 <div class="flex-1">
-                  <label class="block font-bold mb-1 text-black">
-                    Schedule to receive call
-                  </label>
+                  <label class="block font-bold mb-1 text-black"
+                    >Schedule to receive call</label
+                  >
                   <div class="flex flex-col gap-2">
                     <label class="flex items-center gap-2 cursor-pointer">
                       <input
@@ -260,7 +206,7 @@
                 </div>
               </div>
 
-              <!-- ===== Message ===== -->
+              <!-- Message -->
               <div class="mb-6 w-full relative">
                 <label class="block font-bold mb-1 text-black">Message</label>
                 <textarea
@@ -282,7 +228,7 @@
                 }
               </div>
 
-              <!-- ===== Remember + Submit ===== -->
+              <!-- Remember + Submit -->
               <div class="flex items-center mb-4 w-full">
                 <input
                   type="checkbox"
@@ -308,10 +254,11 @@
               </button>
             </form>
           </div>
+          <!-- ==== END FORM ==== -->
         </div>
       </div>
     </div>
-    <!--  -->
+    <!-- End Banner -->
   </div>
 </body>
 <app-footer />

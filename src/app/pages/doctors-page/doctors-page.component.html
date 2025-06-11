@@ -1,0 +1,113 @@
+<app-header />
+<body class="bg-white text-black">
+  <div class="max-w-7xl mx-auto py-10 px-6">
+    <h2 class="text-2xl font-bold text-center mb-6 text-[#222e5c]">
+      Our Medical Team
+    </h2>
+    <!-- Filters -->
+    <div class="flex flex-wrap gap-4 justify-center mb-6">
+      <input
+        type="text"
+        placeholder="Search doctors..."
+        class="w-1/2 px-4 py-2 rounded-full border border-gray-300 shadow"
+        (input)="onSearch($event)"
+        [value]="searchValue"
+      />
+      <!-- Specialty -->
+      <select
+        class="px-4 py-2 rounded-full border border-gray-300"
+        [(ngModel)]="selectedSpecialty"
+        (change)="selectSpecialty(selectedSpecialty)"
+      >
+        @for (spec of specialties; track spec) {
+        <option [value]="spec">{{ spec }}</option>
+        }
+      </select>
+      <!-- Gender -->
+      <select
+        class="px-4 py-2 rounded-full border border-gray-300"
+        [(ngModel)]="selectedGender"
+        (change)="selectGender(selectedGender)"
+      >
+        @for (g of genders; track g) {
+        <option [value]="g">{{ g === "All" ? "All genders" : g }}</option>
+        }
+      </select>
+    </div>
+
+    <!-- Doctor Cards 4 cols -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+      @for (doc of paginatedDoctors; track doc.id) {
+      <a
+        [routerLink]="[doc.id]"
+        class="h-[30rem] w-full relative rounded-2xl overflow-hidden shadow group transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block"
+        style="text-decoration: none"
+      >
+        <!-- Image with hover zoom -->
+        <img
+          [src]="doc.img"
+          class="h-full w-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
+          alt="doctor"
+        />
+        <!-- Overlay Name/Role, opacity effect on hover -->
+        <div
+          class="absolute left-0 right-0 top-3/4 h-[5rem] bg-[#A2845E]/80 group-hover:bg-[#A2845E]/95 flex flex-col justify-center px-8 transition-all duration-300"
+          style="backdrop-filter: blur(2px)"
+        >
+          <p
+            class="text-xl font-semibold text-white mb-1 transition-colors duration-300"
+          >
+            {{ doc.name }}
+          </p>
+          <p
+            class="text-sm text-white group-hover:text-blue-50 transition-colors duration-300"
+          >
+            {{ doc.role }}
+          </p>
+        </div>
+      </a>
+
+      }
+    </div>
+
+    <!-- Pagination -->
+    <div class="flex justify-center items-center gap-2 mt-6">
+      <button
+        *ngIf="page !== 1; else prevPlaceholder"
+        (click)="goToPage(page - 1)"
+        class="px-3 py-1 rounded border bg-white hover:bg-blue-50 transition"
+      >
+        Prev
+      </button>
+      <ng-template #prevPlaceholder>
+        <button class="px-3 py-1 rounded border bg-white invisible">
+          Prev
+        </button>
+      </ng-template>
+      @for (_ of pageArray; track $index) {
+      <button
+        (click)="goToPage($index + 1)"
+        [ngClass]="
+          page === $index + 1 ? 'bg-[#47B1E2] text-white font-bold' : 'bg-white'
+        "
+        class="px-3 py-1 rounded border border-blue-200 hover:bg-blue-100 transition w-12"
+      >
+        {{ $index + 1 }}
+      </button>
+      }
+      <button
+        *ngIf="page !== maxPage; else nextPlaceholder"
+        (click)="goToPage(page + 1)"
+        class="px-3 py-1 rounded border bg-white hover:bg-blue-50 transition"
+      >
+        Next
+      </button>
+      <ng-template #nextPlaceholder>
+        <button class="px-3 py-1 rounded border bg-white invisible">
+          Next
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</body>
+<app-footer />

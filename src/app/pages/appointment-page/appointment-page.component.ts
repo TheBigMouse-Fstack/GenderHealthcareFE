@@ -24,10 +24,18 @@ export class AppointmentPageComponent implements OnInit {
   private supabaseService = inject(SupabaseService);
 
   ngOnInit() {
+    // 1. Nếu có Remember-contact-form thì lấy tất cả data đã lưu
     const saved = localStorage.getItem('Remember-contact-form');
     if (saved) {
       this.contactData = JSON.parse(saved);
       this.RememberContact = true;
+    }
+
+    // 2. Nếu có pre-fill-message thì overwrite field message
+    const prefill = localStorage.getItem('pre-fill-message');
+    if (prefill) {
+      this.contactData.message = prefill;
+      localStorage.removeItem('pre-fill-message');
     }
   }
 
@@ -53,7 +61,6 @@ export class AppointmentPageComponent implements OnInit {
 
     const contactData = { ...form.value };
 
-    // Nếu muốn gọi lên Supabase function:
     try {
       await this.supabaseService.callRpc('send_contact_message', {
         full_name: contactData.fullName,
@@ -62,7 +69,6 @@ export class AppointmentPageComponent implements OnInit {
         message: contactData.message,
       });
       alert('Gửi thành công lên Supabase!');
-      // Xử lý localStorage như cũ...
       if (this.RememberContact) {
         localStorage.setItem(
           'Remember-contact-form',
