@@ -8,6 +8,10 @@ export interface UserLogin {
   password: string;
 }
 
+export interface UserId {
+  id: string;
+}
+
 export interface ContactMessage {
   fullName: string;
   email: string;

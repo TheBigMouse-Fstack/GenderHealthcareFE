@@ -11,6 +11,8 @@ import { debounceTime } from 'rxjs';
 import { GoogleComponent } from '../../components/google/google.component';
 import { UserService } from '../../Services/user.service';
 import { TokenService } from '../../Services/token.service';
+import { Router } from '@angular/router';
+import { RedirectCommand } from '@angular/router';
 
 // ==================== COMPONENT DECORATOR ====================
 @Component({
@@ -34,6 +36,7 @@ export class RegisterComponent {
   private destroyRef = inject(DestroyRef);
   private userService = inject(UserService);
   private tokenService = inject(TokenService);
+  private router = inject(Router);
 
   // ==================== CONSTRUCTOR ====================
   constructor() {
@@ -94,11 +97,16 @@ export class RegisterComponent {
         .registerUser(formData.form.value)
         .subscribe({
           next: (res: any) => {
-            alert('User Registration Success');
-            // Nếu có token thì lưu vào session luôn
-            if (res.token) {
-              this.tokenService.setTokenSession(res.token);
+            // --- Lấy token từ response (tùy BE) ---
+            const token =
+              res.access_token ||
+              (res.data && res.data.access_token) ||
+              res.token;
+            if (token) {
+              console.log(token);
+              this.tokenService.setTokenSession(token);
               // TODO: redirect user sang trang chính nếu muốn
+              this.router.navigate(['/']);
             }
             // --- Xoá form lưu tạm & reset form (nếu muốn) ---
             // localStorage.removeItem('save-register-form');

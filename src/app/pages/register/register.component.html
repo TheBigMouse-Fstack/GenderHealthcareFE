@@ -13,7 +13,12 @@
     </div>
 
     <!-- ============= REGISTER FORM ============= -->
-    <form #form="ngForm" (ngSubmit)="onRegister(form)" autocomplete="off">
+    <form
+      #form="ngForm"
+      (ngSubmit)="onRegister(form)"
+      autocomplete="off"
+      class="text-black"
+    >
       <!-- ========== PHONE FIELD ========== -->
       <div
         class="control relative mb-6"

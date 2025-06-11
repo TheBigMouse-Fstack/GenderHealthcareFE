@@ -22,7 +22,7 @@ export class UserService {
    */
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
-      authorization: `Bearer ${environment.authorization}`,
+      Authorization: `Bearer ${environment.authorizationv2}`,
       'Content-Type': 'application/json',
     });
   }
@@ -33,7 +33,6 @@ export class UserService {
    * @param userRegisterData Dữ liệu user
    */
   registerUser(userRegisterData: UserRegister) {
-    // Chuyển số 0xxx... về +84xxx...
     let phoneForSupabase = userRegisterData.phone.startsWith('0')
       ? '+84' + userRegisterData.phone.substring(1)
       : userRegisterData.phone;
@@ -68,12 +67,19 @@ export class UserService {
     });
   }
 
-  // =========== Form ===========
-  sendContactMessage(data: ContactMessage) {
-    // Đổi endpoint theo BE của bạn
-    console.log(data);
-    return this.http.post(`${environment.apiEndpoint}/login`, data, {
-      headers: this.getHeaders(),
+  // =========== fetchdata ===========
+  getUserProfile() {
+    // Lấy token từ localStorage, nếu không có thì lấy từ sessionStorage
+    let accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      accessToken = sessionStorage.getItem('access_token');
+    }
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     });
+
+    return this.http.get(`${environment.apiEndpoint}/me`, { headers });
   }
 }

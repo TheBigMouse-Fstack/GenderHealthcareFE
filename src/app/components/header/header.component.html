@@ -99,7 +99,7 @@
     </div>
 
     <a
-      href="./user"
+      href="/"
       class="sm:h-8/9 h-3/4 w-16 sm:w-52 flex items-center justify-center overflow-hidden"
     >
       <img
@@ -296,9 +296,26 @@
             </svg>
           </span>
         </a>
+
+        <!-- hover fetch data -->
         <div
           class="absolute top-[120%] right-0 mt-2 min-w-[160px] bg-[#2a2f3b] rounded shadow-lg z-50 cards invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200"
         >
+          <!-- Nếu chưa đăng nhập, hiện Login/Register -->
+
+          <!-- Nếu đã đăng nhập, hiện userId, Dashboard, Logout -->
+          @if (user) {
+          <a
+            routerLink="/dashboard"
+            class="block px-4 py-2 text-white cursor-pointer card transition-all duration-300"
+            >Dashboard</a
+          >
+          <a
+            (click)="logout()"
+            class="block px-4 py-2 text-white cursor-pointer card transition-all duration-300"
+            >Logout</a
+          >
+          } @else {
           <a
             routerLink="/login"
             class="block px-4 py-2 text-white cursor-pointer card transition-all duration-300"
@@ -309,6 +326,7 @@
             class="block px-4 py-2 text-white cursor-pointer card transition-all duration-300"
             >Register</a
           >
+          }
         </div>
       </li>
     </ul>

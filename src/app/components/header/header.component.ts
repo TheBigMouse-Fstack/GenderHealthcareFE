@@ -1,7 +1,8 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { SearchComponent } from '../search/search.component';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../Services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -10,11 +11,36 @@ import { RouterLink } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isSearch = false;
   isActive = false;
   isMenuOpen = false;
   isUserMenuOpen = false;
+
+  private userService = inject(UserService);
+  private router = inject(Router);
+  user: any = null;
+
+  ngOnInit() {
+    this.getUserInfo();
+  }
+
+  getUserInfo() {
+    this.userService.getUserProfile().subscribe({
+      next: (data) => {
+        this.user = data;
+      },
+      error: (err) => {
+        this.user = null;
+      },
+    });
+  }
+
+  logout() {
+    localStorage.removeItem('access_token');
+    this.user = null;
+    this.router.navigate(['/login']);
+  }
 
   isSearchHandle(val: boolean) {
     this.isSearch = val;
