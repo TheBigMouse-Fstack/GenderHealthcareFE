@@ -48,23 +48,25 @@
               </p>
               <!-- Clinic description -->
               <p class="w-3/4 text-white text-center">
-                Lorem ipsum dolor sit amet consectetur ut commodo gravida
-                viverra quis mattis non aliquet bibendum aliquam varius duis.
+                At GenCare, we’re all about supporting you through every stage
+                of your journey. Our clinic offers a safe, inclusive space for
+                everyone seeking specialized gender healthcare.
               </p>
               <!-- CTAs: Book appointment & All services -->
               <div class="w-3/4 flex justify-around">
                 <!-- Book appointment button -->
-                <a href="appointment">
+                <a routerLink="appointment">
                   <button
                     class="cursor-pointer relative py-4 px-6 text-white text-base font-bold nded-full overflow-hidden bg-[#98d2c0] rounded-4xl transition-all duration-200 ease-in-out shadow-md hover:scale-105 hover:text-[#98d2c0] hover:shadow-lg active:scale-90 before:absolute before:top-0 before:-left-full before:w-full before:h-full before:bg-gradient-to-r before:from-white before:to-white before:transition-all before:duration-300 before:ease-in-out before:z-[-1] before:rounded-4xl hover:before:left-0"
                   >
-                    Book a appointment
+                    Book an appointment
                   </button>
                 </a>
 
                 <!-- All services button -->
                 <button
                   class="animated-button-tw relative flex items-center gap-1 py-3 px-7 border-4 border-transparent text-[16px] bg-inherit rounded-full font-semibold text-white shadow-[0_0_0_2px_#ffffff] cursor-pointer overflow-hidden transition-all duration-[600] ease-[cubic-bezier(0.23,1,0.32,1)]"
+                  routerLink="service"
                 >
                   <span
                     class="text-tw relative z-10 -translate-x-3 transition-all duration-[800ms] ease-[cubic-bezier(0.23,1,0.32,1)]"
@@ -394,13 +396,13 @@
         <h2 class="text-4xl font-extrabold text-[#29123c] font-serif">
           Browse our latest blogs on healthcare & wellness
         </h2>
-        <a href="/all-articles">
-          <button
-            class="cursor-pointer px-6 py-4 border-2 border-[#29123c] text-[#29123c] rounded-full font-medium transition-all duration-200 hover:bg-[#29123c] hover:text-white shadow-sm hover:shadow-md"
-          >
-            Explore More
-          </button>
-        </a>
+
+        <button
+          class="cursor-pointer px-6 py-4 border-2 border-[#29123c] text-[#29123c] rounded-full font-medium transition-all duration-200 hover:bg-[#29123c] hover:text-white shadow-sm hover:shadow-md"
+          routerLink="blog"
+        >
+          Explore More
+        </button>
       </div>
       <div class="w-full h-[20rem] my-10 flex justify-between">
         <div class="h-full w-[29.2rem] rounded-4xl">

@@ -35,9 +35,10 @@
       </select>
     </div>
 
-    <!-- Doctor Cards 4 cols -->
+    <!-- Doctor Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-      @for (doc of paginatedDoctors; track doc.id) {
+      @if (!loading && paginatedDoctors.length > 0) { @for (doc of
+      paginatedDoctors; track doc.id) {
       <a
         [routerLink]="[doc.id]"
         class="h-[30rem] w-full relative rounded-2xl overflow-hidden shadow group transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 block"
@@ -49,7 +50,7 @@
           class="h-full w-full object-cover rounded-2xl transition-transform duration-300 group-hover:scale-105"
           alt="doctor"
         />
-        <!-- Overlay Name/Role, opacity effect on hover -->
+        <!-- Overlay Name/Role -->
         <div
           class="absolute left-0 right-0 top-3/4 h-[5rem] bg-[#A2845E]/80 group-hover:bg-[#A2845E]/95 flex flex-col justify-center px-8 transition-all duration-300"
           style="backdrop-filter: blur(2px)"
@@ -66,47 +67,44 @@
           </p>
         </div>
       </a>
-
+      } } @else {
+      <div class="col-span-4 text-center text-gray-400 text-xl py-8">
+        {{ loading ? "Loading..." : "No doctors found" }}
+      </div>
       }
     </div>
 
     <!-- Pagination -->
     <div class="flex justify-center items-center gap-2 mt-6">
+      @if (page !== 1) {
       <button
-        *ngIf="page !== 1; else prevPlaceholder"
         (click)="goToPage(page - 1)"
         class="px-3 py-1 rounded border bg-white hover:bg-blue-50 transition"
       >
         Prev
       </button>
-      <ng-template #prevPlaceholder>
-        <button class="px-3 py-1 rounded border bg-white invisible">
-          Prev
-        </button>
-      </ng-template>
-      @for (_ of pageArray; track $index) {
+      } @else {
+      <button class="px-3 py-1 rounded border bg-white invisible">Prev</button>
+      } @for (i of pageArray; track i) {
       <button
-        (click)="goToPage($index + 1)"
+        (click)="goToPage(i + 1)"
         [ngClass]="
-          page === $index + 1 ? 'bg-[#47B1E2] text-white font-bold' : 'bg-white'
+          page === i + 1 ? 'bg-[#47B1E2] text-white font-bold' : 'bg-white'
         "
         class="px-3 py-1 rounded border border-blue-200 hover:bg-blue-100 transition w-12"
       >
-        {{ $index + 1 }}
+        {{ i + 1 }}
       </button>
-      }
+      } @if (page !== maxPage) {
       <button
-        *ngIf="page !== maxPage; else nextPlaceholder"
         (click)="goToPage(page + 1)"
         class="px-3 py-1 rounded border bg-white hover:bg-blue-50 transition"
       >
         Next
       </button>
-      <ng-template #nextPlaceholder>
-        <button class="px-3 py-1 rounded border bg-white invisible">
-          Next
-        </button>
-      </ng-template>
+      } @else {
+      <button class="px-3 py-1 rounded border bg-white invisible">Next</button>
+      }
     </div>
   </div>
 </body>

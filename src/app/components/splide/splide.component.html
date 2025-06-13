@@ -1,117 +1,25 @@
 <div #splideRef class="splide h-full">
   <div class="splide__track h-full">
     <ul class="splide__list h-full flex gap-2.5">
+      @for (doc of DOCTORS; track doc.id) {
       <li
         class="splide__slide flex justify-center transition-all duration-300 ease-in-out"
       >
         <a href="#" class="block h-full w-full relative group">
           <div class="h-full relative">
-            <img class="h-full rounded-2xl" src="./doctor2.webp" alt="doctor" />
+            <img class="h-full rounded-2xl" [src]="doc.img" [alt]="doc.name" />
           </div>
           <div
-            class="w-[22.7rem] h-[5rem] top-3/4 bg-[#A2845E] absolute flex flex-col justify-center px-8"
+            class="w-[24rem] h-[5rem] top-3/4 bg-[#A2845E] absolute flex flex-col justify-center px-8"
           >
             <div class="text-group transition-transform duration-300">
-              <p class="text-xl font-semibold">Nguyen Kim Thuy</p>
-              <p class="text-[0.8rem]">Bác sĩ tiểu phẫu</p>
+              <p class="text-xl font-semibold">{{ doc.name }}</p>
+              <p class="text-[0.8rem]">{{ doc.role }}</p>
             </div>
           </div>
         </a>
       </li>
-      <li
-        class="splide__slide flex justify-center transition-all duration-300 ease-in-out"
-      >
-        <a href="#" class="block h-full w-full relative group">
-          <div class="h-full relative">
-            <img class="h-full rounded-2xl" src="./doctor2.webp" alt="doctor" />
-          </div>
-          <div
-            class="w-[22.7rem] h-[5rem] top-3/4 bg-[#A2845E] absolute flex flex-col justify-center px-8"
-          >
-            <div class="text-group transition-transform duration-300">
-              <p class="text-xl font-semibold">Nguyen Kim Thuy</p>
-              <p class="text-[0.8rem]">Bác sĩ tiểu phẫu</p>
-            </div>
-          </div>
-        </a>
-      </li>
-
-      <li
-        class="splide__slide flex justify-center transition-all duration-300 ease-in-out"
-      >
-        <a href="#" class="block h-full w-full relative group">
-          <div class="h-full relative">
-            <img class="h-full rounded-2xl" src="./doctor2.webp" alt="doctor" />
-          </div>
-          <div
-            class="w-[22.7rem] h-[5rem] top-3/4 bg-[#A2845E] absolute flex flex-col justify-center px-8"
-          >
-            <div class="text-group transition-transform duration-300">
-              <p class="text-xl font-semibold">Nguyen Kim Thuy</p>
-              <p class="text-[0.8rem]">Bác sĩ tiểu phẫu</p>
-            </div>
-          </div>
-        </a>
-      </li>
-      <li
-        class="splide__slide flex justify-center transition-all duration-300 ease-in-out"
-      >
-        <a href="#" class="block h-full w-full relative group">
-          <div class="h-full relative">
-            <img class="h-full rounded-2xl" src="./doctor2.webp" alt="doctor" />
-          </div>
-          <div
-            class="w-[22.7rem] h-[5rem] top-3/4 bg-[#A2845E] absolute flex flex-col justify-center px-8"
-          >
-            <div class="text-group transition-transform duration-300">
-              <p class="text-xl font-semibold">Nguyen Kim Thuy</p>
-              <p class="text-[0.8rem]">Bác sĩ tiểu phẫu</p>
-            </div>
-          </div>
-        </a>
-      </li>
+      }
     </ul>
   </div>
 </div>
-
-<!-- Arrow trái -->
-<button
-  class="arrow-btn absolute -left-[3rem] top-[20rem] cursor-pointer"
-  (click)="prev()"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke-width="1.5"
-    stroke="#98d2c0"
-    class="size-20"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="M15.75 19.5 8.25 12l7.5-7.5"
-    />
-  </svg>
-</button>
-
-<!-- Arrow phải -->
-<button
-  class="arrow-btn absolute -right-[3rem] top-[20rem] cursor-pointer"
-  (click)="next()"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke-width="1.5"
-    stroke="#98d2c0"
-    class="size-20"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-    />
-  </svg>
-</button>

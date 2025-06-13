@@ -1,5 +1,6 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import Splide from '@splidejs/splide';
+import { DOCTORS } from '../../data/doctors.mock';
 
 @Component({
   selector: 'app-splide',
@@ -9,6 +10,7 @@ import Splide from '@splidejs/splide';
 export class SplideComponent implements AfterViewInit {
   @ViewChild('splideRef') splideRef!: ElementRef;
   splide: any;
+  DOCTORS = DOCTORS;
 
   ngAfterViewInit() {
     this.splide = new Splide(this.splideRef.nativeElement, {
