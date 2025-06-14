@@ -1,99 +1,121 @@
-import { Component, OnInit } from '@angular/core';
-import { SupabaseService } from '../../Services/supabase.service';
-import { FooterComponent } from '../../components/footer/footer.component';
-import { HeaderComponent } from '../../components/header/header.component';
-import { FormsModule } from '@angular/forms';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
+import { Doctor } from '../../models/doctor.model';
+import { UserService } from '../../Services/user.service';
 import { RouterLink } from '@angular/router';
+import { HeaderComponent } from '../../components/header/header.component';
+import { FooterComponent } from '../../components/footer/footer.component';
 import { NgClass } from '@angular/common';
-
-interface Doctor {
-  id: number;
-  name: string;
-  role: string;
-  gender: string;
-  specialty: string;
-  img: string;
-}
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-doctors-page',
+  standalone: true,
+  imports: [RouterLink, HeaderComponent, FooterComponent, NgClass, FormsModule],
   templateUrl: './doctors-page.component.html',
-  styleUrls: ['./doctors-page.component.css'],
-  imports: [FooterComponent, HeaderComponent, FormsModule, RouterLink, NgClass],
-  // standalone và imports nếu bạn xài standalone (tuỳ setup)
+  styleUrls: ['./doctors-page.component.css'], // optional nếu có CSS riêng
 })
 export class DoctorsPageComponent implements OnInit {
+  // ===== STATE =====
   doctors: Doctor[] = [];
+  paginatedDoctors: Doctor[] = [];
   loading = false;
 
+  // ===== FILTERS =====
   searchValue: string = '';
   selectedSpecialty: string = 'All';
   selectedGender: string = 'All';
   specialties: string[] = ['All'];
-  genders: string[] = ['All', 'Male', 'Female'];
+  genders: string[] = ['All', 'male', 'female'];
 
-  get pageArray() {
-    // Trả về mảng số nguyên cho pagination
-    return Array.from({ length: this.maxPage }, (_, i) => i);
-  }
-
-  // Pagination
+  // ===== PAGINATION =====
   page = 1;
-  perPage = 4;
+  perPage = 3;
   maxPage = 1;
-  paginatedDoctors: Doctor[] = [];
 
-  constructor(private supabaseService: SupabaseService) {}
+  private userService = inject(UserService);
 
-  async ngOnInit() {
-    await this.fetchDoctors();
+  ngOnInit(): void {
+    this.fetchDoctors();
   }
 
-  async fetchDoctors() {
+  fetchDoctors(): void {
     this.loading = true;
-    try {
-      // Gọi RPC có filter/search
-      const doctors: Doctor[] = await this.supabaseService.callRpc(
-        'fetch-doctor',
-        {
-          _name: this.searchValue,
-          _specialty: this.selectedSpecialty,
-          _gender: this.selectedGender,
-        }
-      );
-      this.doctors = doctors;
-      // Lấy danh sách specialty
-      const specialties = Array.from(new Set(doctors.map((d) => d.specialty)));
-      this.specialties = ['All', ...specialties];
 
-      this.page = 1; // Reset page
-      this.updatePagination();
-    } catch (e: any) {
-      alert('Failed to fetch doctors: ' + e.message);
-    }
-    this.loading = false;
+    const name = this.searchValue;
+    const specialty =
+      this.selectedSpecialty === 'All' ? '' : this.selectedSpecialty;
+    const gender = this.selectedGender === 'All' ? '' : this.selectedGender;
+
+    this.userService.getDoctors(name, specialty, gender).subscribe({
+      next: (data) => {
+        this.doctors = data;
+        const uniqueSpecialties = Array.from(
+          new Set(data.map((doc) => doc.speciality))
+        );
+        this.specialties = ['All', ...uniqueSpecialties];
+
+        this.page = 1;
+        this.updatePagination();
+      },
+      error: (err) => {
+        console.error('Failed to load doctors:', err);
+        alert('Không thể tải danh sách bác sĩ');
+      },
+      complete: () => {
+        this.loading = false;
+      },
+    });
   }
 
-  async onSearch(event: Event) {
-    this.searchValue = (event.target as HTMLInputElement).value || '';
-    await this.fetchDoctors();
+  showFilter: boolean = false;
+  isDesktop: boolean = window.innerWidth >= 768;
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isDesktop = window.innerWidth >= 768;
   }
-  async selectSpecialty(spec: string) {
-    this.selectedSpecialty = spec;
-    await this.fetchDoctors();
+
+  fallbackImage = 'https://via.placeholder.com/300x400?text=No+Image';
+
+  getImageUrl(link: string | null): string {
+    if (!link) return this.fallbackImage;
+    return link.includes('//doctor')
+      ? link.replace('//doctor', '/doctor')
+      : link;
   }
-  async selectGender(g: string) {
-    this.selectedGender = g;
-    await this.fetchDoctors();
+
+  // ===== EVENT: Search by name =====
+  onSearch(event: Event): void {
+    this.searchValue = (event.target as HTMLInputElement).value.trim();
+    this.fetchDoctors();
   }
-  goToPage(pg: number) {
+
+  // ===== EVENT: Select Specialty =====
+  selectSpecialty(specialty: string): void {
+    this.selectedSpecialty = specialty;
+    this.fetchDoctors();
+  }
+
+  // ===== EVENT: Select Gender =====
+  selectGender(gender: string): void {
+    this.selectedGender = gender;
+    this.fetchDoctors();
+  }
+
+  // ===== PAGINATION =====
+  goToPage(pg: number): void {
     if (pg < 1 || pg > this.maxPage) return;
     this.page = pg;
     this.updatePagination();
   }
-  updatePagination() {
-    this.maxPage = Math.max(1, Math.ceil(this.doctors.length / this.perPage));
+
+  updatePagination(): void {
+    this.maxPage = Math.ceil(this.doctors.length / this.perPage);
     const start = (this.page - 1) * this.perPage;
     this.paginatedDoctors = this.doctors.slice(start, start + this.perPage);
+  }
+
+  get pageArray(): number[] {
+    return Array.from({ length: this.maxPage }, (_, i) => i);
   }
 }

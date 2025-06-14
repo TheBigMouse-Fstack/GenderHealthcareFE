@@ -1,85 +1,96 @@
 // ================== IMPORTS ==================
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import {
   type ContactMessage,
   type UserLogin,
-  UserRegister,
+  type UserRegister,
 } from '../models/user.model';
+import { Doctor, DoctorDetail } from '../models/doctor.model';
+import { Observable } from 'rxjs';
 
 // ================== SERVICE DECORATOR ==================
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  // =========== CONSTRUCTOR & DI ===========
+  // =========== CONSTRUCTOR ===========
+
   constructor(private http: HttpClient) {}
 
   // =========== PRIVATE HEADER BUILDER ===========
-  /**
-   * Tạo headers cho request HTTP
-   */
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
-      Authorization: `Bearer ${environment.authorizationv2}`,
       'Content-Type': 'application/json',
     });
   }
 
   // =========== REGISTER USER ===========
-  /**
-   * Đăng ký user mới
-   * @param userRegisterData Dữ liệu user
-   */
   registerUser(userRegisterData: UserRegister) {
-    let phoneForSupabase = userRegisterData.phone.startsWith('0')
-      ? '+84' + userRegisterData.phone.substring(1)
+    const phone = userRegisterData.phone.startsWith('0')
+      ? '+84' + userRegisterData.phone.slice(1)
       : userRegisterData.phone;
+
     const body: UserRegister = {
-      phone: phoneForSupabase,
+      phone,
       password: userRegisterData.password,
     };
-    // Gửi POST tới /register
+
     return this.http.post(`${environment.apiEndpoint}/register`, body, {
       headers: this.getHeaders(),
     });
   }
 
-  // =========== LOGIN USER ===========
-  /**
-   * Đăng nhập bằng số điện thoại & password
-   * @param phone SĐT user
-   * @param password Mật khẩu
-   */
+  // =========== LOGIN ===========
   loginWithPhone(phone: string, password: string) {
-    // Chuyển số 0xxx... về +84xxx...
-    let phoneForSupabase = phone.startsWith('0')
-      ? '+84' + phone.substring(1)
+    const formattedPhone = phone.startsWith('0')
+      ? '+84' + phone.slice(1)
       : phone;
+
     const body: UserLogin = {
-      phone: phoneForSupabase,
+      phone: formattedPhone,
       password,
     };
-    // Gửi POST tới /login
+
     return this.http.post(`${environment.apiEndpoint}/login`, body, {
       headers: this.getHeaders(),
     });
   }
 
-  // =========== fetchdata ===========
+  // =========== PROFILE ===========
   getUserProfile() {
-    // Lấy token từ localStorage, nếu không có thì lấy từ sessionStorage
-    let accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      accessToken = sessionStorage.getItem('access_token');
-    }
-
+    let token =
+      localStorage.getItem('access_token') ||
+      sessionStorage.getItem('access_token');
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
     });
 
     return this.http.get(`${environment.apiEndpoint}/me`, { headers });
+  }
+
+  // =========== FETCH DOCTORS ===========
+  /**
+   * Gọi API lấy danh sách bác sĩ, có filter
+   */
+  getDoctors(name: string, specialty: string, gender: string) {
+    let params = new HttpParams();
+    if (name) params = params.set('name', name);
+    if (specialty && specialty !== 'All')
+      params = params.set('specialty', specialty);
+    if (gender && gender !== 'All') params = params.set('gender', gender);
+
+    return this.http.get<Doctor[]>(`${environment.apiEndpoint}/fetch-doctor`, {
+      params,
+    });
+  }
+  getDoctorById(id: string): Observable<DoctorDetail> {
+    const params = new HttpParams().set('doctor_id', id);
+    return this.http.get<DoctorDetail>(
+      `${environment.apiEndpoint}/fetch-doctor-id`,
+      { params }
+    );
   }
 }

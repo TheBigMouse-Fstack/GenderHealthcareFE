@@ -134,7 +134,7 @@ export const BLOGS: Blog[] = [
     desc: 'Tips chọn lọc content học online an toàn, tránh fake news trên TikTok.',
     content:
       'List kênh TikTok, YouTube uy tín Gen Z nên follow để update kiến thức...',
-    img: './Content.png',
+    img: './Content.pngx',
     createdAt: '2025-05-25T09:34:00Z',
     category: 'Education',
     tags: ['education', 'tiktok', 'content'],
