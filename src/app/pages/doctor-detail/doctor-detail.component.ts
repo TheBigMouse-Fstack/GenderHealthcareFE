@@ -14,6 +14,7 @@ import { NgClass } from '@angular/common';
 })
 export class DoctorDetailComponent implements OnInit {
   doctor = signal<DoctorDetail | null>(null);
+
   loading = signal(true);
   errorMsg = signal('');
   activeTab = 'about';
@@ -51,8 +52,7 @@ export class DoctorDetailComponent implements OnInit {
   }
 
   get doctorName(): string {
-    const name = this.doctor()?.staff_members?.full_name;
-    return name ? name : 'Dr. [unknown]';
+    return this.doctor()?.staff_members?.full_name || 'Dr. [unknown]';
   }
 
   getImageUrl(link: string | null | undefined): string {
@@ -60,5 +60,16 @@ export class DoctorDetailComponent implements OnInit {
     return link.includes('//doctor')
       ? link.replace('//doctor', '/doctor')
       : link;
+  }
+  get staffLanguages(): string[] {
+    return this.doctor()?.staff_members?.languages ?? [];
+  }
+
+  get educationDegrees() {
+    return this.doctor()?.educations?.degrees ?? [];
+  }
+
+  get certificationList() {
+    return this.doctor()?.certifications?.certifications ?? [];
   }
 }

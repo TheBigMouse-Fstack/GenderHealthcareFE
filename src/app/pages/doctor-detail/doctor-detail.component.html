@@ -1,28 +1,34 @@
 <app-header />
 <body class="w-full bg-[#f8f8f8] py-[3rem]">
+  <!-- MAIN CONTENT WITH LOADING & ERROR HANDLING -->
   @defer (when !loading()) { @if (errorMsg(); as err) {
+  <!-- Error message display -->
   <div class="text-center py-16 text-red-600">
     <p class="text-lg">{{ err }}</p>
   </div>
   } @else {
   <div class="max-w-7xl mx-auto px-6">
-    <!-- Banner -->
+    <!-- === BANNER: Doctor Info + Avatar === -->
     <div
       class="h-[14rem] rounded-3xl px-6 flex items-center bg-cover bg-center mb-8"
       style="background-image: url('./loginBg.png')"
     >
+      <!-- Avatar image -->
       <img
         [src]="getImageUrl(doctor()?.staff_members?.image_link)"
-        class="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg mr-6 z-10"
+        class="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg mr-6 z-10 object-top"
         alt="Doctor Avatar"
       />
       <div class="flex-1 z-10">
+        <!-- Doctor name -->
         <h2 class="text-4xl font-extrabold text-white mb-2">
           {{ doctorName }}
         </h2>
+        <!-- Doctor details: Email, Gender, Exp, Specialty -->
         <div
           class="flex flex-wrap gap-4 text-base text-[#e2e2e2] font-medium items-center"
         >
+          <!-- Email -->
           <div class="flex items-center gap-2">
             <!-- Email Icon -->
             <svg
@@ -41,6 +47,7 @@
             </svg>
             <span>{{ doctor()?.staff_members?.working_email }}</span>
           </div>
+          <!-- Gender -->
           <div class="flex items-center gap-2 capitalize">
             <!-- Gender Icon -->
             <svg
@@ -56,6 +63,7 @@
             </svg>
             <span>{{ doctor()?.staff_members?.gender }}</span>
           </div>
+          <!-- Experience -->
           <div class="flex items-center gap-2">
             <!-- Clock Icon -->
             <svg
@@ -77,6 +85,7 @@
               >{{ doctor()?.staff_members?.years_experience }} years exp</span
             >
           </div>
+          <!-- Specialty -->
           <div class="flex items-center gap-2 capitalize">
             <!-- Specialty Icon -->
             <svg
@@ -99,7 +108,7 @@
       </div>
     </div>
 
-    <!-- Tabs -->
+    <!-- Tabs Navigation -->
     <div
       class="border-b border-gray-300 flex gap-6 text-base font-semibold mb-6"
     >
@@ -111,7 +120,28 @@
         }"
         class="pb-2 transition"
       >
-        Giới thiệu
+        About
+      </button>
+      <button
+        (click)="activeTab = 'education'"
+        [ngClass]="{
+          'border-b-2 border-blue-600 text-blue-600': activeTab === 'education',
+          'text-gray-600 hover:text-blue-600': activeTab !== 'education'
+        }"
+        class="pb-2 transition"
+      >
+        Education
+      </button>
+      <button
+        (click)="activeTab = 'certifications'"
+        [ngClass]="{
+          'border-b-2 border-blue-600 text-blue-600':
+            activeTab === 'certifications',
+          'text-gray-600 hover:text-blue-600': activeTab !== 'certifications'
+        }"
+        class="pb-2 transition"
+      >
+        Certifications
       </button>
       <button
         (click)="activeTab = 'license'"
@@ -121,70 +151,216 @@
         }"
         class="pb-2 transition"
       >
-        Giấy phép hành nghề
+        Medical License
       </button>
     </div>
 
-    <!-- Tab Content -->
     @switch (activeTab) { @case ('about') {
-    <div class="space-y-8 text-[#5c5270]">
-      <div>
-        <h3 class="text-2xl font-bold text-[#192f4e] mb-2">About Me</h3>
-        <p class="text-lg">
-          {{ doctor()?.about_me?.description }}
-        </p>
-      </div>
-      <div>
-        <h3 class="text-2xl font-bold text-[#192f4e] mb-2">Experience</h3>
-        <p class="text-lg">
-          {{ doctor()?.about_me?.experience }}
-        </p>
-      </div>
-    </div>
-    } @case ('license') {
+    <!-- ABOUT TAB, style block trắng, căn trái, không bóp width -->
     <div
-      class="relative border-4 border-blue-500 bg-white text-black px-8 py-6 rounded-lg shadow max-w-xl mx-auto"
+      class="w-full bg-white border border-gray-200 rounded-2xl shadow-sm mb-6 p-6 text-left"
+    >
+      <!-- About -->
+      <div class="mb-4">
+        <h3
+          class="text-xl font-bold text-blue-800 flex items-center gap-2 mb-2"
+        >
+          <svg
+            class="w-6 h-6 text-blue-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M12 18a6 6 0 100-12 6 6 0 000 12z"
+            />
+          </svg>
+          About
+        </h3>
+        <div class="text-base text-[#5c5270]">
+          {{ doctor()?.about_me?.description }}
+        </div>
+      </div>
+      <!-- Experience -->
+      @if (doctor()?.about_me?.experience) {
+      <div class="mb-4">
+        <h3
+          class="text-xl font-bold text-green-800 flex items-center gap-2 mb-2"
+        >
+          <svg
+            class="w-6 h-6 text-green-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 17l4 4 4-4m-4-5v9"
+            />
+          </svg>
+          Experience
+        </h3>
+        <div class="text-base text-[#5c5270]">
+          {{ doctor()?.about_me?.experience }}
+        </div>
+      </div>
+      }
+      <!-- Languages -->
+      @if (staffLanguages.length > 0) {
+      <div>
+        <h3
+          class="text-xl font-bold text-purple-800 flex items-center gap-2 mb-2"
+        >
+          <svg
+            class="w-6 h-6 text-purple-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 19l9 2-7-7 2-9-7 7-7 2 7 7z"
+            />
+          </svg>
+          Languages
+        </h3>
+        <ul class="list-disc list-inside text-base text-[#5c5270] pl-6">
+          @for (lang of staffLanguages; track lang) {
+          <li>{{ lang }}</li>
+          }
+        </ul>
+      </div>
+      }
+    </div>
+    } @case ('education') {
+    <!-- EDUCATION TAB, full width, block style -->
+    <div
+      class="w-full bg-white border border-gray-200 rounded-2xl shadow-sm mb-6 p-6 text-left"
+    >
+      <div class="flex items-center gap-2 mb-3">
+        <svg
+          class="w-6 h-6 text-blue-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 14l9-5-9-5-9 5 9 5zm0 0v6m0 0H6m6 0h6"
+          />
+        </svg>
+        <h3 class="text-2xl font-bold text-blue-800">Education</h3>
+      </div>
+
+      @if (educationDegrees.length > 0) {
+      <ul class="divide-y divide-gray-100">
+        @for (edu of educationDegrees; track edu.degree) {
+        <li class="flex items-center justify-between py-3">
+          <!-- Degree left, Year right -->
+          <span class="font-semibold text-xl text-[#21376b]">
+            {{ edu.degree }}
+          </span>
+          <span class="text-gray-400 text-base font-medium">
+            {{ edu.year_completed }}
+          </span>
+        </li>
+        }
+      </ul>
+      } @else {
+      <p class="italic text-gray-400">No education info available.</p>
+      }
+    </div>
+
+    } @case ('certifications') {
+    <!-- CERTIFICATIONS TAB, full width, block style -->
+    <div
+      class="w-full bg-white border border-gray-200 rounded-2xl shadow-sm mb-6 p-6 text-left"
+    >
+      <div class="flex items-center gap-2 mb-3">
+        <svg
+          class="w-6 h-6 text-blue-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4l3 3"
+          />
+          <circle cx="12" cy="12" r="10" stroke-width="2" />
+        </svg>
+        <h3 class="text-2xl font-bold text-blue-800">Certifications</h3>
+      </div>
+      @if (certificationList.length > 0) {
+      <ul class="divide-y divide-gray-100">
+        @for (cert of certificationList; track cert.name) {
+        <li class="py-3">
+          <div class="font-bold text-lg text-[#21376b]">{{ cert.name }}</div>
+          <div class="text-gray-500 text-base">
+            {{ cert.institution }}
+            <span class="mx-2 text-gray-300">|</span> Awarded in
+            {{ cert.year_awarded }}
+          </div>
+        </li>
+        }
+      </ul>
+      } @else {
+      <p class="italic text-gray-400">No certifications info available.</p>
+      }
+    </div>
+
+    } @case ('license') {
+    <!-- MEDICAL LICENSE TAB: vẫn giữ max-w-xl mx-auto cho giống giấy phép -->
+    <div
+      class="relative min-h-[200px] border-4 border-blue-500 bg-white text-black px-8 py-6 rounded-lg shadow max-w-xl mx-auto"
       style="font-family: 'Times New Roman', serif"
     >
       <div class="text-center mb-4">
         <p class="uppercase font-semibold text-sm">
-          CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+          SOCIALIST REPUBLIC OF VIETNAM
         </p>
-        <p class="text-sm">Độc lập - Tự do - Hạnh phúc</p>
+        <p class="text-sm">Independence – Freedom – Happiness</p>
         <div class="w-16 border-t border-black mx-auto my-2"></div>
       </div>
       <h2 class="text-center text-2xl font-bold mb-6 underline">
-        GIẤY PHÉP HÀNH NGHỀ Y
+        MEDICAL PRACTICE LICENSE
       </h2>
       <div class="space-y-4 text-lg">
         <div class="flex">
-          <span class="w-36 font-semibold">Họ tên:</span>
+          <span class="w-36 font-semibold">Full name:</span>
           <span class="flex-1"
-            >Bác sĩ {{ doctor()?.staff_members?.full_name }}</span
+            >Dr. {{ doctor()?.staff_members?.full_name }}</span
           >
         </div>
         <div class="flex">
-          <span class="w-36 font-semibold">Số giấy phép:</span>
+          <span class="w-36 font-semibold">License No.:</span>
           <span class="flex-1">{{ doctor()?.license_no }}</span>
         </div>
         <div class="flex">
-          <span class="w-36 font-semibold">Chuyên khoa:</span>
+          <span class="w-36 font-semibold">Specialty:</span>
           <span class="flex-1 capitalize">
             {{ doctor()?.speciality?.replaceAll("_", " ") }}
           </span>
         </div>
       </div>
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Emblem_of_Vietnam.svg/1200px-Emblem_of_Vietnam.svg.png"
-        class="absolute opacity-10 w-64 h-64 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        alt="Quốc huy Việt Nam"
-      />
     </div>
     } }
   </div>
   } } @loading {
+  <!-- LOADING SKELETON -->
   <div class="max-w-7xl m-auto px-6 py-16 animate-pulse">
-    <!-- Loading Skeleton here -->
+    <!-- Add your skeleton here if needed -->
   </div>
   }
 </body>
