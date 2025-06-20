@@ -11,6 +11,7 @@ import { DoctorDetailComponent } from './pages/doctor-detail/doctor-detail.compo
 import { BlogDetailComponent } from './pages/blog-detail/blog-detail.component';
 import { ForgotPasswordComponent } from './pages/forget-password/forget-password.component';
 import { ServicePageComponent } from './pages/services-page/services-page.component';
+import { ConsultationPageComponent } from './pages/consultation-page/consultation-page.component';
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent, data: { breadcrumb: 'Home' } },
@@ -27,6 +28,11 @@ export const routes: Routes = [
     path: 'appointment',
     component: AppointmentPageComponent,
     data: { breadcrumb: 'Appointment' },
+  },
+  {
+    path: 'consultation',
+    component: ConsultationPageComponent,
+    data: { breadcrumb: 'consultation' },
   },
   {
     path: 'doctor',
