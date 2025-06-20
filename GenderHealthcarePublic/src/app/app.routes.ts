@@ -12,6 +12,7 @@ import { BlogDetailComponent } from './pages/blog-detail/blog-detail.component';
 import { ForgotPasswordComponent } from './pages/forget-password/forget-password.component';
 import { ServicePageComponent } from './pages/services-page/services-page.component';
 import { ConsultationPageComponent } from './pages/consultation-page/consultation-page.component';
+import { LeaveAppointmentGuard } from './guards/leave-appointment.guard';
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent, data: { breadcrumb: 'Home' } },
@@ -28,6 +29,7 @@ export const routes: Routes = [
     path: 'appointment',
     component: AppointmentPageComponent,
     data: { breadcrumb: 'Appointment' },
+    canDeactivate: [LeaveAppointmentGuard],
   },
   {
     path: 'consultation',
