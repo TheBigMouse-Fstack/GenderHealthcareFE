@@ -62,7 +62,6 @@ export class DoctorDetailComponent implements OnInit, OnDestroy {
         this.doctor.set(doctor);
         this.loading.set(false);
 
-        // Gắn label dynamic breadcrumb với đường dẫn chính xác
         const breadcrumbPath = `/doctor/${doctor_id}`;
         const label = doctor?.staff_members?.full_name || 'Doctor Detail';
         this.breadcrumbService.setLabel(breadcrumbPath, label);

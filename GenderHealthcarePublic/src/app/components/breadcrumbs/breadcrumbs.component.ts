@@ -85,12 +85,9 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   }
 
   private getLabelForPath(path: string, segment: string): string | null {
-    // Kiểm tra dynamic label trước
     if (this.labels[path]) {
       return this.labels[path];
     }
-
-    // Fallback theo route config
     switch (path) {
       case '/':
         return 'Home';
@@ -100,13 +97,16 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
         return 'Doctors';
       case '/appointment':
         return 'Appointment';
+      case '/service':
+        return 'Services';
       default:
-        // Nếu là route với param (như /blog/123, /doctor/456)
         if (path.startsWith('/blog/') && path !== '/blog') {
-          // Nếu có dynamic label thì dùng, không thì dùng placeholder
           return this.labels[path] || '...';
         }
         if (path.startsWith('/doctor/') && path !== '/doctor') {
+          return this.labels[path] || '...';
+        }
+        if (path.startsWith('/service/') && path !== '/service') {
           return this.labels[path] || '...';
         }
         return null;

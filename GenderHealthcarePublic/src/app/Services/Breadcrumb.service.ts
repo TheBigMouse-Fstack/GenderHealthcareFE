@@ -3,7 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BreadcrumbService {
-  // Dạng: { [url: string]: label }
   private labelSubject = new BehaviorSubject<{ [url: string]: string }>({});
   label$ = this.labelSubject.asObservable();
 

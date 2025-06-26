@@ -10,7 +10,7 @@ import {
 import { Doctor, DoctorDetail } from '../models/doctor.model';
 import { Observable } from 'rxjs';
 import { Blog, BlogDetail } from '../models/blog.model';
-import { MedicalService } from '../models/service.model';
+import { MedicalService, ServiceDetail } from '../models/service.model';
 
 // ================== SERVICE DECORATOR ==================
 @Injectable({
@@ -156,6 +156,16 @@ export class UserService {
     return this.http.get<MedicalService[]>(
       `${environment.apiEndpoint}/fetch-service`,
       {
+        headers: this.getHeaders(),
+      }
+    );
+  }
+  getServiceById(serviceId: string): Observable<ServiceDetail> {
+    const params = new HttpParams().set('service_id', serviceId);
+    return this.http.get<ServiceDetail>(
+      `${environment.apiEndpoint}/fetch-service-id`,
+      {
+        params,
         headers: this.getHeaders(),
       }
     );

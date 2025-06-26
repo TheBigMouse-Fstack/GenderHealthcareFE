@@ -26,3 +26,13 @@ export interface BlogDetail {
     image_link?: string | null;
   };
 }
+export interface BlogDisplay {
+  id: string;
+  title: string;
+  desc: string;
+  img: string;
+  author: string;
+  createdAt: string;
+  tags: string[];
+  category: string;
+}

@@ -301,25 +301,16 @@
     </div>
     } @case ('license') {
     <div
-      class="relative min-h-[200px] border-4 border-blue-500 bg-white text-black px-8 py-6 rounded-lg shadow max-w-xl mx-auto"
+      class="relative border-1 border-gray-200 bg-white text-black px-8 py-6 rounded-lg shadow w-full mx-auto"
       style="font-family: 'Times New Roman', serif"
     >
-      <div class="text-center mb-4">
-        <p class="uppercase font-semibold text-sm">
-          SOCIALIST REPUBLIC OF VIETNAM
-        </p>
-        <p class="text-sm">Independence – Freedom – Happiness</p>
-        <div class="w-16 border-t border-black mx-auto my-2"></div>
-      </div>
-      <h2 class="text-center text-2xl font-bold mb-6 underline">
+      <h2 class="text-2xl font-bold mb-6 text-blue-800">
         MEDICAL PRACTICE LICENSE
       </h2>
       <div class="space-y-4 text-lg">
         <div class="flex">
           <span class="w-36 font-semibold">Full name:</span>
-          <span class="flex-1"
-            >Dr. {{ doctor()?.staff_members?.full_name }}</span
-          >
+          <span class="flex-1">{{ doctor()?.staff_members?.full_name }}</span>
         </div>
         <div class="flex">
           <span class="w-36 font-semibold">License No.:</span>

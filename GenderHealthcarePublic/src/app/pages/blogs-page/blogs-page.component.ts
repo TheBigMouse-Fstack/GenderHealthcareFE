@@ -4,21 +4,9 @@ import { Router, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { UserService } from '../../Services/user.service';
-import { Blog } from '../../models/blog.model';
+import { Blog, BlogDisplay } from '../../models/blog.model';
 import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbService } from '../../Services/Breadcrumb.service';
-
-// Interface để map dữ liệu từ API sang format hiện tại
-interface BlogDisplay {
-  id: string;
-  title: string;
-  desc: string;
-  img: string;
-  author: string;
-  createdAt: string;
-  tags: string[];
-  category: string;
-}
 
 @Component({
   selector: 'app-blogs-page',

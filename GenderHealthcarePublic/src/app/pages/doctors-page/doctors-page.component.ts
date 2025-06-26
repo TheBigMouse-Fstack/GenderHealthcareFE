@@ -55,7 +55,6 @@ export class DoctorsPageComponent implements OnInit {
     this.userService.getDoctors('', '', '').subscribe({
       next: (data) => {
         this.allDoctors = data;
-        // get unique specialties
         const uniqueSpecialties = Array.from(
           new Set(data.map((doc) => doc.speciality).filter(Boolean))
         );

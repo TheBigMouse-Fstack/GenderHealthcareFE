@@ -13,6 +13,7 @@ import { ForgotPasswordComponent } from './pages/forget-password/forget-password
 import { ServicePageComponent } from './pages/services-page/services-page.component';
 import { ConsultationPageComponent } from './pages/consultation-page/consultation-page.component';
 import { LeaveAppointmentGuard } from './guards/leave-appointment.guard';
+import { ServiceDetailComponent } from './service-detail/service-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent, data: { breadcrumb: 'Home' } },
@@ -55,11 +56,16 @@ export const routes: Routes = [
     path: 'blog/:id',
     component: BlogDetailComponent,
     data: { breadcrumb: '...' },
-  }, // Will be replaced with Blog title dynamically
+  },
   {
     path: 'service',
     component: ServicePageComponent,
     data: { breadcrumb: 'services' },
+  },
+  {
+    path: 'service/:id',
+    component: ServiceDetailComponent,
+    data: { breadcrumb: '...' },
   },
 ];
 

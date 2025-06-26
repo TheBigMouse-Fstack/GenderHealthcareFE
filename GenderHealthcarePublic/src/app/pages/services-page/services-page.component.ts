@@ -6,11 +6,18 @@ import { UserService } from '../../Services/user.service';
 import { MedicalService } from '../../models/service.model';
 import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-service-page',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, NgClass, RouterLink],
+  imports: [
+    HeaderComponent,
+    FooterComponent,
+    NgClass,
+    RouterLink,
+    BreadcrumbsComponent,
+  ],
   templateUrl: './services-page.component.html',
   styleUrl: './services-page.component.css',
 })

@@ -22,3 +22,15 @@ export interface MedicalService {
     category_name: string;
   };
 }
+export interface ServiceDetail {
+  service_id: string;
+  service_name: string;
+  description: {
+    what: string;
+    why: string;
+    who: string;
+    how: string;
+  };
+  price: number;
+  image_link: string;
+}

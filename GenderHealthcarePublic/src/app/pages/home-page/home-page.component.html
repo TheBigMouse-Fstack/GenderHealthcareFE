@@ -339,9 +339,9 @@
   <!-- ========== END SECTION: Main Content with Videos & Info ========== -->
 
   <!-- ========== SECTION: Doctor  ========== -->
-  <div class="h-[30rem] w-full relative mt-[8rem] mb-[3rem]">
+  <div class="h-[42rem] w-full relative mt-[8rem] mb-[5rem]">
     <div
-      class="absolute -top-[3rem] rounded-2xl left-0 w-full h-[44rem] z-0 bg-cover bg-center"
+      class="absolute -top-[4rem] rounded-2xl left-0 w-full h-[46rem] z-0 bg-cover bg-center"
       style="background-image: url('./loginBg.png')"
     >
       <!-- ===== Banner decorative image 1 (top left) ===== -->
@@ -390,7 +390,7 @@
   <!-- ========== END SECTION: Doctor ========== -->
 
   <!-- ========== SECTION: Blog  ========== -->
-  <div class="h-auto w-full mt-[15rem] pb-20">
+  <div class="h-auto w-full mt-[5rem] pb-1">
     <div class="max-w-7xl h-full m-auto px-6">
       <div class="flex items-center justify-between mb-10 px-6">
         <h2 class="text-4xl font-extrabold text-[#29123c] font-serif">
@@ -433,17 +433,17 @@
       <!-- Dynamic Blog Cards -->
       @for (blog of latestBlogs; track blog.id) {
       <div
-        class="w-full h-[20rem] my-10 flex justify-between group cursor-pointer transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+        class="w-full h-[20rem] rounded-4xl my-10 flex justify-between group cursor-pointer transition-all duration-300 hover:shadow-xl"
       >
         <div class="h-full w-[29.2rem] rounded-4xl overflow-hidden">
           <img
             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-            [src]="blog.img"
+            src="./letan.png"
             [alt]="blog.title"
           />
         </div>
         <div
-          class="w-[50rem] h-full bg-white flex flex-col justify-center gap-3 p-8 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-blue-50"
+          class="w-[50rem] h-full rounded-4xl bg-white flex flex-col justify-center gap-3 p-8 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-white group-hover:to-blue-50"
         >
           <p
             class="text-2xl text-[#1A2233] font-bold mb-2 transition-colors duration-300 group-hover:text-[#29123c]"

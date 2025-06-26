@@ -104,7 +104,7 @@
     <div class="space-y-6">
       <button
         type="button"
-        class="w-full bg-white border border-gray-200 rounded-xl p-6 flex justify-between shadow group transition hover:shadow-xl hover:border-[#4e6688]/80 focus:outline-none focus:ring-2 focus:ring-[#4e6688] focus:ring-offset-2"
+        class="w-full bg-white border border-gray-200 rounded-xl p-6 flex justify-between group transition hover:border-[#4e6688]/80 focus:outline-none focus:ring-2 focus:ring-[#4e6688] focus:ring-offset-2"
         (click)="chooseBookingType('serfirst')"
       >
         <div class="w-[35rem]">
@@ -137,7 +137,7 @@
 
       <button
         type="button"
-        class="w-full bg-white border border-gray-200 rounded-xl p-6 flex justify-between items-center shadow group transition hover:shadow-xl hover:border-[#4e6688]/80 focus:outline-none focus:ring-2 focus:ring-[#4e6688] focus:ring-offset-2"
+        class="w-full bg-white border border-gray-200 rounded-xl p-6 flex justify-between items-center group transition hover:border-[#4e6688]/80 focus:outline-none focus:ring-2 focus:ring-[#4e6688] focus:ring-offset-2"
         (click)="chooseBookingType('docfirst')"
       >
         <div class="w-[35rem]">
@@ -454,5 +454,7 @@
       </div>
     </form>
     }
+    <!-- STEP 3: Patien info 2 -->
+    @if(currentStep === 3){ }
   </div>
 </body>
